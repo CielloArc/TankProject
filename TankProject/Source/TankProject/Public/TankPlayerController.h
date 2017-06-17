@@ -14,8 +14,28 @@ class TANKPROJECT_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 	
-public :
-	ATank* GetControlledTank() const;
-	
+public :	
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+
+private:
+	UPROPERTY(EditAnywhere)
+		float crosshairXPosition = 0.5;
+
+	UPROPERTY(EditAnywhere)
+		float crosshairYPosition = 0.3333;
+	
+	UPROPERTY(EditAnywhere)
+		float lineTraceRange = 1000000;
+
+	ATank* GetControlledTank() const;
+
+	//Move the barrel towards the crosshair
+	void AimTowardsCrosshair();
+	
+	bool GetSightHitLocation(FVector& hitLocation) const;
+
+	bool GetLookDirection(FVector2D screenLocation, FVector& lookDirection) const;
+
+	bool GetVectorHitLocation(FVector lookDirection, FVector& hitLocation) const;
 };
