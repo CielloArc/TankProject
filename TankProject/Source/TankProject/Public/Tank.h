@@ -6,6 +6,9 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h" //This shit must ALWAYS be the last one
 
+
+class UTankBarrel;
+
 UCLASS()
 class TANKPROJECT_API ATank : public APawn
 {
@@ -15,7 +18,7 @@ public:
 	void AimAt(FVector hitLocation);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UStaticMeshComponent* barrelToSet);
+	void SetBarrelReference(UTankBarrel* barrelToSet);
 
 protected:
 	UTankAimingComponent* tankAimingComponent = nullptr;
@@ -26,9 +29,6 @@ private:
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;	
