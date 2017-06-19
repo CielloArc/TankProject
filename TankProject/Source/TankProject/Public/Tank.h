@@ -2,12 +2,13 @@
 
 #pragma once
 
-#include "TankAimingComponent.h"
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h" //This shit must ALWAYS be the last one
 
 
 class UTankBarrel;
+class UTankTurret;
+class UTankAimingComponent;
 
 UCLASS()
 class TANKPROJECT_API ATank : public APawn
@@ -19,6 +20,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrel* barrelToSet);
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+		void SetTurretReference(UTankTurret* turretToSet);
+
+	UFUNCTION(BlueprintCallable, Category = Firing)
+		void Fire();
 
 protected:
 	UTankAimingComponent* tankAimingComponent = nullptr;
@@ -34,6 +41,6 @@ private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;	
 	
 	UPROPERTY(EditAnywhere, Category = Firing)
-		float launchspeed = 100000;
+		float launchspeed = 4000;
 
 };

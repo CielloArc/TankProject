@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankProject.h"
+#include "TankAimingComponent.h"
 #include "Tank.h"
 
 
@@ -35,6 +36,17 @@ void ATank::AimAt(FVector hitLocation) {
 
 void ATank::SetBarrelReference(UTankBarrel* barrelToSet) {
 	tankAimingComponent->SetBarrelReference(barrelToSet);
+}
+
+void ATank::SetTurretReference(UTankTurret* turretToSet) {
+	tankAimingComponent->SetTurretReference(turretToSet);
+}
+
+
+void ATank::Fire() {
+	auto time = GetWorld()->GetTimeSeconds();
+	auto tankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%f: %s Fired"), time, *tankName);
 }
 
 

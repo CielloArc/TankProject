@@ -7,6 +7,7 @@
 
 //Forward declaration;
 class UTankBarrel; 
+class UTankTurret;
 
 //Hold barrel properties
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -20,15 +21,15 @@ public:
 
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 		
 	void AimAt(FVector hitLocation, float launchspeed);
 	void SetBarrelReference(UTankBarrel* barrelToSet);
+	void SetTurretReference(UTankTurret* turretToSet);
+
 
 private:
 	UTankBarrel* barrel = nullptr;
+	UTankTurret* turret = nullptr;
 
 	void MoveBarrelTowards(FVector aimDirection);
 };
