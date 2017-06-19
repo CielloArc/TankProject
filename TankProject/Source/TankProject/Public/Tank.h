@@ -6,6 +6,7 @@
 #include "Tank.generated.h" //This shit must ALWAYS be the last one
 
 
+class AProjectile;
 class UTankBarrel;
 class UTankTurret;
 class UTankAimingComponent;
@@ -43,4 +44,13 @@ private:
 	UPROPERTY(EditAnywhere, Category = Firing)
 		float launchspeed = 4000;
 
+	UPROPERTY(EditAnywhere, Category = Setup)
+		TSubclassOf<AProjectile> projectileBlueprint;
+
+	//BarrelReference for spawning the projectile
+	UTankBarrel* barrel = nullptr;
+
+	float reloadTimeInSeconds = 3;
+
+	double lastFireTime = 0;
 };
