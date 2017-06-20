@@ -16,4 +16,7 @@ class TANKPROJECT_API ATankAIController : public AAIController
 public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
+
+private:
+	float acceptanceRadius = 3000; //Maximum distance between AI and the Player
 };

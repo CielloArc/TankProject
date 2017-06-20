@@ -16,6 +16,10 @@ class TANKPROJECT_API ATankPlayerController : public APlayerController
 public :	
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+
+protected:
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	ATank* GetControlledTank() const;
 	
 
 private:
@@ -27,8 +31,6 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly)
 		float lineTraceRange = 1000000;
-
-	ATank* GetControlledTank() const;
 
 	//Move the barrel towards the crosshair
 	void AimTowardsCrosshair();
