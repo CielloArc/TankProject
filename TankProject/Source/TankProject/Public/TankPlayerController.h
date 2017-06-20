@@ -19,13 +19,13 @@ public :
 	
 
 private:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 		float crosshairXPosition = 0.5;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 		float crosshairYPosition = 0.3333;
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 		float lineTraceRange = 1000000;
 
 	ATank* GetControlledTank() const;
