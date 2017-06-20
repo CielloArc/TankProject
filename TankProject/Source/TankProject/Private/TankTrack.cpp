@@ -5,9 +5,7 @@
 
 
 void UTankTrack::SetThrottle(float throttle) {
-	auto time = GetWorld()->GetTimeSeconds();
-	auto name = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%f: %s throttles at %f"), time, *name,throttle);
+
 
 	//TODO Clamp the throttle
 
