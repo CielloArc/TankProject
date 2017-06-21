@@ -14,7 +14,7 @@ void UTankMovementComponent::Initialise(UTankTrack* leftTrackToSet, UTankTrack* 
 void UTankMovementComponent::IntendToMoveForward(float intent) {
 	//auto time = GetWorld()->GetTimeSeconds();
 	//UE_LOG(LogTemp, Warning, TEXT("Intent to move forward: %f"), intent);
-	if (!leftTrack || !rightTrack) { return; }
+	if (!ensure(leftTrack && rightTrack)) { return; }
 
 	leftTrack->SetThrottle(intent);
 	rightTrack->SetThrottle(intent);
@@ -23,7 +23,7 @@ void UTankMovementComponent::IntendToMoveForward(float intent) {
 void UTankMovementComponent::IntendTurnRight(float intent) {
 	//auto time = GetWorld()->GetTimeSeconds();
 	//UE_LOG(LogTemp, Warning, TEXT("Intent to move forward: %f"), intent);
-	if (!leftTrack || !rightTrack) { return; }
+	if (!ensure(leftTrack && rightTrack)) { return; }
 
 	leftTrack->SetThrottle(intent);
 	rightTrack->SetThrottle(-intent);
