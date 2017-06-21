@@ -4,6 +4,23 @@
 #include "TankTrack.h"
 
 
+void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) {
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	//Calculate slippage speed
+	auto slippageSpeed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());
+
+	//Correct the accelarion in this frame
+	auto correctionAcceleration = -slippageSpeed / DeltaTime * GetRightVector();
+
+	//Calculate and apply force
+	auto tankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
+	auto correctionForce = (tankRoot->GetMass() * correctionAcceleration) / 2;
+
+	tankRoot->AddForce(correctionForce);
+}
+
+
 void UTankTrack::SetThrottle(float throttle) {
 
 
@@ -16,5 +33,6 @@ void UTankTrack::SetThrottle(float throttle) {
 
 	tankRoot->AddForceAtLocation(forceApplied, forceLocation);
 }
+
 
 
