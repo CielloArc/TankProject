@@ -15,6 +15,7 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 
-private:
-	float acceptanceRadius = 3000; //Maximum distance between AI and the Player
+protected:
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float acceptanceRadius = 8000; //Maximum distance between AI and the Player
 };

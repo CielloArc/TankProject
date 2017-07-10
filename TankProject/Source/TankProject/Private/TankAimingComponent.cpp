@@ -25,8 +25,9 @@ void UTankAimingComponent::BeginPlay()
 
 
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) {
-	
-	if ((FPlatformTime::Seconds() - lastFireTime) < reloadTimeInSeconds){
+	if (roundsLeft <= 0) {
+		firingState = EFiringState::OutOfAmmo;
+	}else if ((FPlatformTime::Seconds() - lastFireTime) < reloadTimeInSeconds){
 		firingState = EFiringState::Reloading;
 	}
 	else if(IsBarrelMoving())
@@ -78,14 +79,19 @@ void UTankAimingComponent::MoveBarrelTowards(FVector direction) {
 	auto deltaRotator = aimAsRotator - barrelRotator;
 
 	barrel->Elevate(deltaRotator.Pitch);
-	turret->Rotate(deltaRotator.Yaw);
+	if(deltaRotator.Yaw < 180){	
+		turret->Rotate(deltaRotator.Yaw);
+	}
+	else {
+		turret->Rotate(-deltaRotator.Yaw);
+	}
 	//UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *aimAsRotator.ToString())
 
 }
 
 void UTankAimingComponent::Fire() {
 	
-	if (firingState != EFiringState::Reloading) {
+	if (firingState == EFiringState::Locked || firingState == EFiringState::Aiming) {
 
 		if (!ensure(barrel)) { return; }
 		if (!ensure(projectileBlueprint)) { return; }
@@ -95,11 +101,22 @@ void UTankAimingComponent::Fire() {
 		FRotator spawnRotation = barrel->GetSocketRotation(FName("Projectile"));
 
 		//Spawn the bullet
-		auto projectile = GetWorld()->SpawnActor<AProjectile>(projectileBlueprint, spawnLocation, spawnRotation);
+		auto projectile = GetWorld()->SpawnActor<AProjectile>(projectileBlueprint, spawnLocation, spawnRotation);		
 
 		projectile->LaunchProjectile(launchspeed);
+		roundsLeft--;
+		UE_LOG(LogTemp, Warning, TEXT("%i"), roundsLeft);
 		lastFireTime = FPlatformTime::Seconds();
+		
 	}
+}
+
+EFiringState UTankAimingComponent::GetFiringState() const{
+	return firingState;
+}
+
+int UTankAimingComponent::GetRoundsLeft() const {
+	return roundsLeft;
 }
 
 

@@ -3,14 +3,24 @@
 #include "TankProject.h"
 #include "TankTrack.h"
 
+void UTankTrack::BeginPlay() {
+	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
+}
 
-void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit) {
+	DriveTrack();
+	ApplySidewaysForce();
+	currentThrottle = 0;
+}
 
+
+void UTankTrack::ApplySidewaysForce()
+{
 	//Calculate slippage speed
 	auto slippageSpeed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());
 
 	//Correct the accelarion in this frame
+	auto DeltaTime = GetWorld()->GetDeltaSeconds();
 	auto correctionAcceleration = -slippageSpeed / DeltaTime * GetRightVector();
 
 	//Calculate and apply force
@@ -22,14 +32,14 @@ void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActor
 
 
 void UTankTrack::SetThrottle(float throttle) {
+	currentThrottle = FMath::Clamp<float>(currentThrottle + throttle, -1, 1);	
+}
 
-
-	//TODO Clamp the throttle
-
-	auto forceApplied = GetForwardVector() * throttle * trackMaxDrivingForce;
+void UTankTrack::DriveTrack() {
+	auto forceApplied = GetForwardVector() * currentThrottle * trackMaxDrivingForce;
 	auto forceLocation = GetComponentLocation();
 
-	auto tankRoot = Cast<UPrimitiveComponent> (GetOwner()->GetRootComponent());
+	auto tankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
 
 	tankRoot->AddForceAtLocation(forceApplied, forceLocation);
 }
