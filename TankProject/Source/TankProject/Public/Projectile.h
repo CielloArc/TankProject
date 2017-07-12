@@ -27,6 +27,9 @@ protected:
 	//SubObject
 	UProjectileMovementComponent* projectileMovement = nullptr;
 
-	
+	UPROPERTY(VisibleAnywhere, Category = "Particles")
+	UStaticMeshComponent* collisionMesh = nullptr;
+	UPROPERTY(VisibleAnywhere, Category = "Particles")
+	UParticleSystemComponent* launchBlast = nullptr;
 	
 };
