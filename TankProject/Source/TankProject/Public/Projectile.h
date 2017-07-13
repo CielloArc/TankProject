@@ -27,9 +27,28 @@ protected:
 	//SubObject
 	UProjectileMovementComponent* projectileMovement = nullptr;
 
-	UPROPERTY(VisibleAnywhere, Category = "Particles")
-	UStaticMeshComponent* collisionMesh = nullptr;
-	UPROPERTY(VisibleAnywhere, Category = "Particles")
-	UParticleSystemComponent* launchBlast = nullptr;
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		UStaticMeshComponent* collisionMesh = nullptr;
 	
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		UParticleSystemComponent* launchBlast = nullptr;
+	
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		UParticleSystemComponent* impactBlast = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		URadialForceComponent* explosionForce = nullptr;
+		
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		float destroyTimer = 10.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		float projectileDamage = 20.0f;
+
+private:
+	UFUNCTION()
+		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+
+	void OnTimerExpire();
 };
+

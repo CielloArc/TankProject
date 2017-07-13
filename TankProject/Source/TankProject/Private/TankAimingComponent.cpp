@@ -104,8 +104,7 @@ void UTankAimingComponent::Fire() {
 		auto projectile = GetWorld()->SpawnActor<AProjectile>(projectileBlueprint, spawnLocation, spawnRotation);		
 
 		projectile->LaunchProjectile(launchspeed);
-		roundsLeft--;
-		UE_LOG(LogTemp, Warning, TEXT("%i"), roundsLeft);
+		roundsLeft--;		
 		lastFireTime = FPlatformTime::Seconds();
 		
 	}
