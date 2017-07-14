@@ -14,8 +14,12 @@ class TANKPROJECT_API ATankAIController : public AAIController
 public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
+	virtual void SetPawn(APawn* InPawn) override;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float acceptanceRadius = 8000; //Maximum distance between AI and the Player
+
+	UFUNCTION()
+		void OnPossessedTankDeath();
 };

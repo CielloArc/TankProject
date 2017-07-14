@@ -10,6 +10,23 @@ void ATankAIController::BeginPlay() {
 	Super::BeginPlay();
 }
 
+void ATankAIController::SetPawn(APawn* InPawn) {
+	Super::SetPawn(InPawn);
+	if (InPawn) {
+		auto possessedTank = Cast<ATank>(InPawn);
+		if (!ensure(possessedTank)) { return; }
+		
+
+		possessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPossessedTankDeath);
+	}
+}
+
+void ATankAIController::OnPossessedTankDeath() {
+	if (!ensure(GetPawn())) { return; }
+
+	GetPawn()->DetachFromControllerPendingDestroy();
+}
+
 void ATankAIController::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 
@@ -32,8 +49,7 @@ void ATankAIController::Tick(float DeltaTime) {
 		if (aimingComponent->GetFiringState() == EFiringState::Locked) {
 			aimingComponent->Fire();
 		}
-	
-
-
-
 }
+
+
+
